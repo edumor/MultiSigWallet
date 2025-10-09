@@ -11,12 +11,30 @@ This repository contains a complete MultiSig Wallet implementation deployed and 
 **Solidity Version:** ^0.8.26  
 **Network:** Ethereum Sepolia Testnet  
 
+## 🎯 **Trabajo Final Módulo 1 - COMPLETADO**
+
+✅ **Requisitos Cumplidos:**
+- **GitHub Portfolio:** ✅ Repositorio público con código documentado
+- **Safe Multi-Sig Address:** ✅ `0x3715305261043DbEdac54dcC321d3E827e8f13a1` (Gnosis Safe)
+- **EVM Testnet Deployment:** ✅ Sepolia Network
+- **2+ Signers Configuration:** ✅ 2-of-2 MultiSig Setup
+
+**Valor Agregado:** Implementación custom adicional que demuestra comprensión profunda de los principios de seguridad MultiSig.  
+
 ## 🚀 Deployed Contracts
 
-### MultiSigWallet (Main Contract)
+### MultiSigWallet (Custom Implementation)
 - **Remix Deploy Address:** `0x254190748c4fC38585B3Bb1439A30D3eE9aDAD30`
 - **Etherscan Verified:** https://sepolia.etherscan.io/address/0x254190748c4fC38585B3Bb1439A30D3eE9aDAD30#code
 - **Status:** ✅ Successfully verified and functional
+- **Type:** Custom-developed MultiSig with enhanced features
+
+### Safe MultiSig (Gnosis Safe Standard)
+- **Safe Address:** `0x3715305261043DbEdac54dcC321d3E827e8f13a1`
+- **Etherscan Verified:** https://sepolia.etherscan.io/address/0x3715305261043DbEdac54dcC321d3E827e8f13a1
+- **Safe Web Interface:** https://app.safe.global/sep:0x3715305261043DbEdac54dcC321d3E827e8f13a1
+- **Status:** ✅ Successfully deployed and configured
+- **Type:** Industry-standard Gnosis Safe (2-of-2 configuration)
 
 ### TestContract (Testing Contract)
 - **Remix Deploy Address:** `0x7047052C241e02bc36f4c4c3E1F137D7fa3ba6D7`
@@ -29,6 +47,22 @@ The MultiSigWallet.sol contract implementation is based on the educational examp
 **https://www.cyfrin.io/glossary/multisig-wallet-solidity-code-example**
 
 This implementation has been enhanced with comprehensive NatSpec documentation, additional security features, and professional-grade code structure.
+
+## 🔄 **Dual Implementation Approach**
+
+| Feature | Custom MultiSig | Gnosis Safe |
+|---------|----------------|-------------|
+| **Development** | ✅ Built from scratch | ✅ Factory deployment |
+| **Learning Value** | ✅ Deep understanding | ✅ Industry standards |
+| **Security Audit** | ⚠️ Self-reviewed | ✅ Battle-tested |
+| **Functionality** | ✅ Core features | ✅ Advanced features |
+| **Gas Efficiency** | ✅ Optimized | ✅ Production-ready |
+| **Upgradeability** | ❌ Static | ✅ Modular system |
+| **Documentation** | ✅ Full NatSpec | ✅ Extensive docs |
+
+**Why Both?**
+- **Custom Implementation:** Demonstrates smart contract development skills
+- **Gnosis Safe:** Shows familiarity with industry-standard tools
 
 ## 🏗️ Contract Configuration
 
@@ -67,7 +101,9 @@ This implementation has been enhanced with comprehensive NatSpec documentation, 
 
 ## 🧪 Testing on Etherscan
 
-### Step 1: Verify Contract State
+### Custom MultiSig Testing
+
+#### Step 1: Verify Contract State
 Visit the MultiSigWallet on Etherscan and use the **Read Contract** tab:
 
 1. **Check Owners:**
@@ -124,6 +160,20 @@ Use the **Write Contract** tab on MultiSigWallet:
    ```
    i() → Should show 123 (incremented value)
    ```
+
+### Gnosis Safe Testing
+
+#### Access Your Safe:
+- **Safe Web Interface:** https://app.safe.global/sep:0x3715305261043DbEdac54dcC321d3E827e8f13a1
+- **Etherscan:** https://sepolia.etherscan.io/address/0x3715305261043DbEdac54dcC321d3E827e8f13a1
+
+#### Test Transaction Flow:
+1. **Connect both owner wallets** to Safe interface
+2. **Create test transaction** (send small amount ETH)
+3. **Sign with first owner**
+4. **Sign with second owner** 
+5. **Execute transaction**
+6. **Verify on blockchain**
 
 ## 📊 Contract Features
 
