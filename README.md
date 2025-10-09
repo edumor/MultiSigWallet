@@ -15,7 +15,7 @@ This repository contains a complete MultiSig Wallet implementation deployed and 
 
 ✅ **Requisitos Cumplidos:**
 - **GitHub Portfolio:** ✅ Repositorio público con código documentado
-- **Safe Multi-Sig Address:** ✅ `0x138B6DD6266ee0E1fFAF118B26cD7a68554C01bA` (Multisin_Eduardo_Moreno)
+- **Safe Multi-Sig Address:** ✅ `0x138B6DD6266ee0E1fFAF118B26cD7a68554C01bA` (Multisig_Eduardo_Moreno)
 - **EVM Testnet Deployment:** ✅ Sepolia Network
 - **2+ Signers Configuration:** ✅ 2-of-2 MultiSig Setup
 
@@ -395,3 +395,4 @@ This project demonstrates:
 
 
 For questions or contributions, please refer to the verified contract code on Etherscan.
+
