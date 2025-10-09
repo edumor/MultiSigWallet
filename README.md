@@ -15,7 +15,7 @@ This repository contains a complete MultiSig Wallet implementation deployed and 
 
 ✅ **Requisitos Cumplidos:**
 - **GitHub Portfolio:** ✅ Repositorio público con código documentado
-- **Safe Multi-Sig Address:** ✅ `0x3715305261043DbEdac54dcC321d3E827e8f13a1` (Gnosis Safe)
+- **Safe Multi-Sig Address:** ✅ `0x138B6DD6266ee0E1fFAF118B26cD7a68554C01bA` (Multising_Eduardo_Moreno)
 - **EVM Testnet Deployment:** ✅ Sepolia Network
 - **2+ Signers Configuration:** ✅ 2-of-2 MultiSig Setup
 
@@ -30,9 +30,10 @@ This repository contains a complete MultiSig Wallet implementation deployed and 
 - **Type:** Custom-developed MultiSig with enhanced features
 
 ### Safe MultiSig (Gnosis Safe Standard)
-- **Safe Address:** `0x3715305261043DbEdac54dcC321d3E827e8f13a1`
-- **Etherscan Verified:** https://sepolia.etherscan.io/address/0x3715305261043DbEdac54dcC321d3E827e8f13a1
-- **Safe Web Interface:** https://app.safe.global/sep:0x3715305261043DbEdac54dcC321d3E827e8f13a1
+- **Safe Name:** `Multising_Eduardo_Moreno`
+- **Safe Address:** `0x138B6DD6266ee0E1fFAF118B26cD7a68554C01bA`
+- **Etherscan Verified:** https://sepolia.etherscan.io/address/0x138B6DD6266ee0E1fFAF118B26cD7a68554C01bA
+- **Safe Web Interface:** https://app.safe.global/sep:0x138B6DD6266ee0E1fFAF118B26cD7a68554C01bA
 - **Status:** ✅ Successfully deployed and configured
 - **Type:** Industry-standard Gnosis Safe (2-of-2 configuration)
 
@@ -164,8 +165,9 @@ Use the **Write Contract** tab on MultiSigWallet:
 ### Gnosis Safe Testing
 
 #### Access Your Safe:
-- **Safe Web Interface:** https://app.safe.global/sep:0x3715305261043DbEdac54dcC321d3E827e8f13a1
-- **Etherscan:** https://sepolia.etherscan.io/address/0x3715305261043DbEdac54dcC321d3E827e8f13a1
+- **Safe Name:** `Multising_Eduardo_Moreno`
+- **Safe Web Interface:** https://app.safe.global/sep:0x138B6DD6266ee0E1fFAF118B26cD7a68554C01bA
+- **Etherscan:** https://sepolia.etherscan.io/address/0x138B6DD6266ee0E1fFAF118B26cD7a68554C01bA
 
 #### Test Transaction Flow:
 1. **Connect both owner wallets** to Safe interface
