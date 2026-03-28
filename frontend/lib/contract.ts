@@ -1,7 +1,12 @@
 export const CONTRACT_ADDRESS = "0x254190748c4fC38585B3Bb1439A30D3eE9aDAD30";
 export const SEPOLIA_CHAIN_ID = 11155111;
 export const ETHERSCAN_BASE = "https://sepolia.etherscan.io";
-export const PUBLIC_RPC = "https://eth-sepolia.public.blastapi.io";
+export const PUBLIC_RPCS = [
+  "https://rpc.sepolia.org",
+  "https://sepolia.drpc.org",
+  "https://ethereum-sepolia.publicnode.com",
+  "https://rpc2.sepolia.org",
+];
 
 export const ABI = [
   "event Deposit(address indexed sender, uint256 amount, uint256 balance)",

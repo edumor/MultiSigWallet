@@ -21,6 +21,7 @@ declare global {
 interface WalletState {
   account: string | null;
   signer: ethers.JsonRpcSigner | null;
+  provider: ethers.BrowserProvider | null;
   isOwner: boolean;
   chainId: number | null;
   isConnected: boolean;
@@ -35,6 +36,7 @@ const WalletContext = createContext<WalletState>({} as WalletState);
 export function WalletProvider({ children }: { children: ReactNode }) {
   const [account, setAccount] = useState<string | null>(null);
   const [signer, setSigner] = useState<ethers.JsonRpcSigner | null>(null);
+  const [provider, setProvider] = useState<ethers.BrowserProvider | null>(null);
   const [isOwner, setIsOwner] = useState(false);
   const [chainId, setChainId] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -62,18 +64,19 @@ export function WalletProvider({ children }: { children: ReactNode }) {
     }
     setIsLoading(true);
     try {
-      const provider = new ethers.BrowserProvider(window.ethereum);
-      await provider.send("eth_requestAccounts", []);
-      const network = await provider.getNetwork();
-      const s = await provider.getSigner();
+      const browserProvider = new ethers.BrowserProvider(window.ethereum);
+      await browserProvider.send("eth_requestAccounts", []);
+      const network = await browserProvider.getNetwork();
+      const s = await browserProvider.getSigner();
       const addr = await s.getAddress();
 
       setSigner(s);
+      setProvider(browserProvider);
       setAccount(addr);
       setChainId(Number(network.chainId));
 
       if (Number(network.chainId) === SEPOLIA_CHAIN_ID) {
-        await checkOwnership(addr, provider);
+        await checkOwnership(addr, browserProvider);
       }
     } catch (err) {
       console.error("Wallet connection error:", err);
@@ -136,6 +139,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
       value={{
         account,
         signer,
+        provider,
         isOwner,
         chainId,
         isConnected,

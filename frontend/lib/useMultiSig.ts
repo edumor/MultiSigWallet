@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { ethers } from "ethers";
-import { CONTRACT_ADDRESS, ABI, PUBLIC_RPC } from "./contract";
+import { CONTRACT_ADDRESS, ABI, PUBLIC_RPCS } from "./contract";
 import { useWallet } from "./WalletContext";
 
 export interface TxData {
@@ -12,6 +12,33 @@ export interface TxData {
   data: string;
   executed: boolean;
   numConfirmations: number;
+}
+
+/** Try each public RPC in order until one works */
+async function getReadProvider(): Promise<ethers.JsonRpcProvider> {
+  // Prefer injected provider (MetaMask) for reading — avoids CORS/firewall issues
+  if (typeof window !== "undefined" && window.ethereum) {
+    try {
+      const p = new ethers.BrowserProvider(window.ethereum);
+      await p.getBlockNumber(); // quick liveness check
+      return p as unknown as ethers.JsonRpcProvider;
+    } catch {
+      // fall through to public RPCs
+    }
+  }
+
+  for (const url of PUBLIC_RPCS) {
+    try {
+      const p = new ethers.JsonRpcProvider(url);
+      await p.getBlockNumber();
+      return p;
+    } catch {
+      // try next
+    }
+  }
+
+  // Last resort: return first RPC without a liveness check
+  return new ethers.JsonRpcProvider(PUBLIC_RPCS[0]);
 }
 
 export function useMultiSig() {
@@ -25,11 +52,6 @@ export function useMultiSig() {
   const [actionLoading, setActionLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const readProvider = useMemo(() => new ethers.JsonRpcProvider(PUBLIC_RPC), []);
-  const readContract = useMemo(
-    () => new ethers.Contract(CONTRACT_ADDRESS, ABI, readProvider),
-    [readProvider]
-  );
   const writeContract = useMemo(
     () => (signer ? new ethers.Contract(CONTRACT_ADDRESS, ABI, signer) : null),
     [signer]
@@ -40,12 +62,15 @@ export function useMultiSig() {
       setLoading(true);
       setError(null);
 
+      const provider = await getReadProvider();
+      const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, provider);
+
       const [ownersRaw, thresholdRaw, txCountRaw, balanceRaw] =
         await Promise.all([
-          readContract.getOwners(),
-          readContract.numConfirmationsRequired(),
-          readContract.getTransactionCount(),
-          readProvider.getBalance(CONTRACT_ADDRESS),
+          contract.getOwners(),
+          contract.numConfirmationsRequired(),
+          contract.getTransactionCount(),
+          provider.getBalance(CONTRACT_ADDRESS),
         ]);
 
       setOwners([...ownersRaw]);
@@ -54,7 +79,7 @@ export function useMultiSig() {
 
       const count = Number(txCountRaw);
       const txPromises = Array.from({ length: count }, (_, i) =>
-        readContract.getTransaction(i)
+        contract.getTransaction(i)
       );
       const txData = await Promise.all(txPromises);
 
@@ -74,7 +99,7 @@ export function useMultiSig() {
     } finally {
       setLoading(false);
     }
-  }, [readContract, readProvider]);
+  }, []);
 
   useEffect(() => {
     fetchData();
@@ -145,12 +170,14 @@ export function useMultiSig() {
   const checkConfirmation = useCallback(
     async (txIndex: number, address: string): Promise<boolean> => {
       try {
-        return await readContract.isConfirmed(txIndex, address);
+        const provider = await getReadProvider();
+        const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, provider);
+        return await contract.isConfirmed(txIndex, address);
       } catch {
         return false;
       }
     },
-    [readContract]
+    []
   );
 
   return {
