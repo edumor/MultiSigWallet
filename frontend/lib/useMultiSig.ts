@@ -14,13 +14,23 @@ export interface TxData {
   numConfirmations: number;
 }
 
-/** Try each public RPC in order until one works */
+/** Race a provider liveness check against a timeout */
+function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
+  return Promise.race([
+    promise,
+    new Promise<T>((_, reject) =>
+      setTimeout(() => reject(new Error("timeout")), ms)
+    ),
+  ]);
+}
+
+/** Try each public RPC in order until one works (3-second timeout per attempt) */
 async function getReadProvider(): Promise<ethers.JsonRpcProvider> {
   // Prefer injected provider (MetaMask) for reading — avoids CORS/firewall issues
   if (typeof window !== "undefined" && window.ethereum) {
     try {
       const p = new ethers.BrowserProvider(window.ethereum);
-      await p.getBlockNumber(); // quick liveness check
+      await withTimeout(p.getBlockNumber(), 3000);
       return p as unknown as ethers.JsonRpcProvider;
     } catch {
       // fall through to public RPCs
@@ -30,15 +40,16 @@ async function getReadProvider(): Promise<ethers.JsonRpcProvider> {
   for (const url of PUBLIC_RPCS) {
     try {
       const p = new ethers.JsonRpcProvider(url);
-      await p.getBlockNumber();
+      await withTimeout(p.getBlockNumber(), 3000);
       return p;
     } catch {
       // try next
     }
   }
 
-  // Last resort: return first RPC without a liveness check
-  return new ethers.JsonRpcProvider(PUBLIC_RPCS[0]);
+  // Last resort: return first available RPC without a liveness check
+  const fallback = PUBLIC_RPCS[0] ?? "https://rpc.ankr.com/eth_sepolia";
+  return new ethers.JsonRpcProvider(fallback);
 }
 
 export function useMultiSig() {

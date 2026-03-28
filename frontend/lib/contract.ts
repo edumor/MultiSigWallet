@@ -1,11 +1,17 @@
 export const CONTRACT_ADDRESS = "0x254190748c4fC38585B3Bb1439A30D3eE9aDAD30";
 export const SEPOLIA_CHAIN_ID = 11155111;
 export const ETHERSCAN_BASE = "https://sepolia.etherscan.io";
-export const PUBLIC_RPCS = [
-  "https://rpc.sepolia.org",
-  "https://sepolia.drpc.org",
-  "https://ethereum-sepolia.publicnode.com",
-  "https://rpc2.sepolia.org",
+
+// Prefer a dedicated RPC set via Vercel env variable (no CORS issues)
+// Fallback list uses endpoints with known browser CORS support
+export const PUBLIC_RPCS: string[] = [
+  ...(process.env.NEXT_PUBLIC_SEPOLIA_RPC_URL
+    ? [process.env.NEXT_PUBLIC_SEPOLIA_RPC_URL]
+    : []),
+  "https://rpc.ankr.com/eth_sepolia",          // Ankr – CORS-friendly
+  "https://eth-sepolia.g.alchemy.com/v2/demo", // Alchemy demo key
+  "https://sepolia.gateway.tenderly.co",        // Tenderly public gateway
+  "https://sepolia.drpc.org",                   // dRPC
 ];
 
 export const ABI = [
