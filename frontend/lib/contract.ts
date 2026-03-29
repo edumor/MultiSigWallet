@@ -8,10 +8,10 @@ export const PUBLIC_RPCS: string[] = [
   ...(process.env.NEXT_PUBLIC_SEPOLIA_RPC_URL
     ? [process.env.NEXT_PUBLIC_SEPOLIA_RPC_URL]
     : []),
-  "https://rpc.ankr.com/eth_sepolia",          // Ankr – CORS-friendly
-  "https://eth-sepolia.g.alchemy.com/v2/demo", // Alchemy demo key
-  "https://sepolia.gateway.tenderly.co",        // Tenderly public gateway
-  "https://sepolia.drpc.org",                   // dRPC
+  "https://eth-sepolia.g.alchemy.com/v2/demo", // Alchemy demo – confirmed working
+  "https://sepolia.gateway.tenderly.co",        // Tenderly – confirmed working
+  "https://gateway.tenderly.co/public/sepolia", // Tenderly alt – confirmed working
+  "https://1rpc.io/sepolia",                    // 1RPC – confirmed working
 ];
 
 export const ABI = [
